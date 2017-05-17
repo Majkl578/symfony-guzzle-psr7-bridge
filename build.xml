@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Symfony PSR-7 adapter for Guzzle" default="check">
+    <target
+        name="check"
+        depends="
+            lint,
+            analyze,
+            tests
+        "
+    />
+    <target name="lint">
+        <exec
+            executable="vendor/bin/parallel-lint"
+            logoutput="true"
+            passthru="true"
+            checkreturn="true"
+        >
+            <arg path="src/"/>
+            <arg path="tests/"/>
+        </exec>
+    </target>
+    <target name="analyze">
+        <exec
+            executable="vendor/bin/phpstan"
+            logoutput="true"
+            passthru="true"
+            checkreturn="true"
+        >
+            <arg value="analyze"/>
+            <arg value="-l"/>
+            <arg value="5"/>
+            <arg path="src/"/>
+            <arg path="tests/"/>
+        </exec>
+    </target>
+    <target name="tests">
+        <exec
+            executable="vendor/bin/phpunit"
+            logoutput="true"
+            passthru="true"
+            checkreturn="true"
+        >
+            <arg value="--coverage-text"/>
+        </exec>
+    </target>
+</project>
